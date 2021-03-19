@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_design_demo/screens/map/floating_text_column.dart';
+import 'package:ui_design_demo/screens/map/menu_drawer.dart';
 import 'package:ui_design_demo/screens/map/widgets/ImageTextColumn.dart';
 
 class MapDrawer extends StatefulWidget {
@@ -63,7 +64,7 @@ class _MapDrawerState extends State<MapDrawer> {
                   margin: EdgeInsets.only(
                       left: screenWidth * 0.08, right: screenWidth * 0.08),
                   child: Divider(height: screenHeight * 0.09, thickness: 1.0)),
-
+              MenuDrawer()
             ],
           ),
         ),

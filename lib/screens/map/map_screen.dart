@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ui_design_demo/screens/map/map_drawer.dart';
@@ -21,7 +20,6 @@ class _MapScreenState extends State<MapScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   void handleDrawer() {
     setState(() {
-      print("line23");
       _scaffoldKey.currentState.openDrawer();
     });
   }
