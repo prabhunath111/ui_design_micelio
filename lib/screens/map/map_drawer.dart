@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_design_demo/screens/map/floating_text_column.dart';
+import 'package:ui_design_demo/screens/map/widgets/ImageTextColumn.dart';
 
 class MapDrawer extends StatefulWidget {
   @override
@@ -50,6 +51,10 @@ class _MapDrawerState extends State<MapDrawer> {
               ),
               decoration: BoxDecoration(color: Color(0xFFC4C6C8)),
             ),
+            SizedBox(
+              height: screenHeight * 0.1
+            ),
+            ImageTextColumn(),
           ],
         ),
         ),
@@ -78,7 +83,7 @@ class _MapDrawerState extends State<MapDrawer> {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
