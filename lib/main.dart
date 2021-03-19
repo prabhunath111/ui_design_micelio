@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ui_design_demo/screens/login/login.dart';
 import 'package:ui_design_demo/screens/map/map_screen.dart';
+import 'package:ui_design_demo/screens/map/top_search_section.dart';
 import 'package:ui_design_demo/screens/otp/otp.dart';
 
 void main() {
@@ -29,7 +30,8 @@ void main() {
       routes: {
         '/': (context) => Login(),
         '/otpscreen': (context) => OtpScreen(),
-        '/mapscreen': (context) => MapScreen()
+        '/mapscreen': (context) => MapScreen(),
+        'topsearchsection': (context) => TopSearchSection()
       },
 ));
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ui_design_demo/screens/login/submit_button.dart';
 import 'package:ui_design_demo/screens/login/textfields.dart';
 
@@ -12,6 +13,10 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Scaffold(
         body: SingleChildScrollView(
           child: Container(
