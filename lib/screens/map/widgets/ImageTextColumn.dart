@@ -10,15 +10,21 @@ class ImageTextColumn extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Color(0xFFFBF2D5)
-            ),
-              child: imageTextColumn(Icon(Icons.electric_scooter), 'Keyless', 'Scooters'),
-          )
+          backgroundContainer(Color(0xFFFBF2D5),Icon(Icons.electric_scooter),'Keyless', 'Scooters'),
+          SizedBox(width: screenWidth * 0.1),
+          backgroundContainer(Color(0xFFFAFAFA),Icon(Icons.watch_later_outlined), 'Long', 'Term'),
         ],
       ),
+    );
+  }
+
+  Widget backgroundContainer(color, icon, text1, text2) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: color
+      ),
+      child: imageTextColumn(icon, text1, text2),
     );
   }
 
@@ -33,7 +39,7 @@ class ImageTextColumn extends StatelessWidget {
               child: icon,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color(0XFFFF9200)
+              color: Color(text1 == 'Keyless'? 0XFFFF9200 : 0xFFF1F1F1)
             ),
           ),
           Text(text1, style: TextStyle(fontWeight: FontWeight.bold),),
