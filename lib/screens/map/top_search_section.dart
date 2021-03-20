@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class TopSearchSection extends StatefulWidget {
   final handleDrawer;
+
   TopSearchSection({this.handleDrawer});
 
   @override
@@ -9,77 +10,55 @@ class TopSearchSection extends StatefulWidget {
 }
 
 class _TopSearchSectionState extends State<TopSearchSection> {
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Positioned(
-        top: screenHeight * 0.1,
+        top: screenHeight * 0.06,
         left: 0.0,
-      right: 0.0,
-      child: Container(
-        height: screenHeight*0.1,
+        right: 0.0,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
-              onPressed: (){
-                // handleDrawer();
-              },
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black,
-                size: 32.0,
-              ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Theme(
-                    data: ThemeData(
-                        primaryColor: Color(0xFF49C1BD),
-                        hintColor: Colors.grey),
-                    child: TextField(
-                      decoration: new InputDecoration(
-                        // borderRadiuserSide: const BorderSide(color: Colors.grey, width: 0.0),
-                          border: new OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xFF49C1BD), width: 0.0),
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(50.0),
-                            ),
-                          ),
-                          filled: true,
-                          prefixIcon: Icon(Icons.circle,
-                              color: Color(0xFF49C1BD), size: 11.0),
-                          hintText: "Your Location",
-                          fillColor: Colors.white),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 4.0, right: 4.0),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.white),
-              child: IconButton(
-                onPressed: null,
                 icon: Icon(
-                  Icons.my_location_rounded,
-                  color: Colors.black,
-                  size: 32.0,
+                  Icons.menu,
+                  color: Colors.black87,
+                  size: 30,
                 ),
-              ),
-            ),
+                onPressed: null),
+            Container(
+                height: screenHeight * 0.05,
+                width: screenWidth * 0.6,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Stack(
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Your Location',
+                        hintStyle: TextStyle(
+                          fontSize: 14
+                        ),
+                        // contentPadding: EdgeInsets.all(screenWidth * 0.025),
+                        prefixIcon: Icon(Icons.circle, color: Color(0xFF49C1BD),size: 10,),
+                        border: InputBorder.none
+                      ),
+                  )],
+                )),
+            Container(
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                child: IconButton(
+                    icon: Icon(
+                      Icons.my_location,
+                      color: Colors.black87,
+                      size: 22,
+                    ),
+                    onPressed: null)),
           ],
-        ),
-      ),
-
-    );
+        ));
   }
 }
