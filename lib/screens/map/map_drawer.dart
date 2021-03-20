@@ -20,59 +20,73 @@ class _MapDrawerState extends State<MapDrawer> {
             color: Color(0xFFFAFAFA),
             child: ListView(
               children: [
-                Container(
-                  padding: EdgeInsets.only(left: 20.0),
-                  height: screenHeight * 0.18,
-                  child: Align(
-                    alignment: Alignment(0, -0.6),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundColor: const Color(0xFFC4C6C8),
-                          child: new Image.asset(
-                            'assets/images/png2.png',
-                          ),
-                        ),
-                        SizedBox(width: 16.0),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Hello!",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 26.0,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                            Text(
-                              "9547271228",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  decoration: BoxDecoration(color: Color(0xFFC4C6C8)),
-                ),
-                SizedBox(height: screenHeight * 0.08),
+                SizedBox(height: screenHeight * 0.275),
                 ImageTextColumn(),
                 Container(
                     margin: EdgeInsets.only(
-                        left: screenWidth * 0.07, right: screenWidth * 0.07),
-                    child: Divider(height: screenHeight * 0.08, thickness: 1.0)),
+                        left: screenWidth * 0.06, right: screenWidth * 0.06),
+                    child:
+                        Divider(height: screenHeight * 0.05, thickness: 1.0)),
                 MenuDrawer()
               ],
             ),
           ),
         ),
         Positioned(
-          top: screenHeight * 0.169,
+          top: 0.0,
+          right: 0.0,
+          left: 0.0,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 20.0),
+                height: screenHeight * 0.22,
+                child: Align(
+                  alignment: Alignment(0, 0),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 24.0,
+                        backgroundColor: const Color(0xFFC4C6C8),
+                        child: new Image.asset(
+                          'assets/images/png2.png',
+                        ),
+                      ),
+                      SizedBox(width: 16.0),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Hello!",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          Text(
+                            "9547271228",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                decoration: BoxDecoration(color: Color(0xFFC4C6C8)),
+              ),
+              Container(
+                height: screenHeight * 0.081,
+                color: Color(0xFFFAFAFA),
+              )
+            ],
+          ),
+        ),
+        Positioned(
+          top: screenHeight * 0.17,
           left: screenWidth * 0.07,
           right: screenWidth * 0.07,
           child: Container(
@@ -100,14 +114,14 @@ class _MapDrawerState extends State<MapDrawer> {
           ),
         ),
         Positioned(
-          bottom: 0.0,
-            left: screenWidth * 0.07,
-            right: screenWidth * 0.07,
+            bottom: 0.0,
+            left: screenWidth * 0.06,
+            right: screenWidth * 0.06,
             child: Container(
               decoration: BoxDecoration(
-                border: Border(top: BorderSide(width: 0.5)),
-                color: Color(0xFFFAFAFA)
-              ),
+                  border:
+                      Border(top: BorderSide(width: 0.5, color: Colors.grey)),
+                  color: Color(0xFFFAFAFA)),
               height: screenHeight * 0.08,
               width: screenWidth,
               child: Padding(
@@ -117,24 +131,17 @@ class _MapDrawerState extends State<MapDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        'v 2.36.8',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12
-                      ),
+                      'v 2.36.8',
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                     Text(
-                        'Terms of use',
-                      style: TextStyle(
-                          color: Colors.grey,
-                        fontSize: 12
-                      ),
+                      'Terms of use',
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                   ],
                 ),
               ),
-            )
-        )
+            ))
       ],
     );
   }

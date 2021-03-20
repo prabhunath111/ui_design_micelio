@@ -7,7 +7,7 @@ class ImageTextColumn extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       margin:
-          EdgeInsets.only(left: screenWidth * 0.07, right: screenWidth * 0.07),
+          EdgeInsets.only(left: screenWidth * 0.06, right: screenWidth * 0.06),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

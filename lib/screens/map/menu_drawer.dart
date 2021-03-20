@@ -7,7 +7,7 @@ class MenuDrawer extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       margin:
-          EdgeInsets.only(left: screenWidth * 0.07, right: screenWidth * 0.07),
+          EdgeInsets.only(left: screenWidth * 0.06, right: screenWidth * 0.06),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -29,7 +29,7 @@ class MenuDrawer extends StatelessWidget {
 
   Widget listRow(iconBackColor, icon, midText, rightText) {
     return Padding(
-      padding: EdgeInsets.only(top: 10.0, bottom: (midText!='Log Out') ? 10.0 : 0.0),
+      padding: EdgeInsets.only(top: midText!='Bounce Club' ? 10.0 : 0.0, bottom: (midText!='Log Out') ? 10.0 : 0.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,11 +52,11 @@ class MenuDrawer extends StatelessWidget {
           Expanded(child: Container()),
           (rightText != '') ? Container(
             decoration: BoxDecoration(
-              color: rightText == 'New' ? Colors.redAccent : Colors.black,
+              color: rightText == 'New' ? Color(0xFF49C1BD) : Colors.black,
               borderRadius: BorderRadius.circular(3)
             ),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(3.5, 1.0, 3.5,1.0),
+                padding: const EdgeInsets.fromLTRB(4.2, 1.0, 4.2,1.0),
                 child: Text(
                     rightText,
                   style: TextStyle(
