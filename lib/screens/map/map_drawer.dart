@@ -16,56 +16,59 @@ class _MapDrawerState extends State<MapDrawer> {
     return Stack(
       children: [
         Drawer(
-          child: ListView(
-            children: [
-              Container(
-                padding: EdgeInsets.only(left: 20.0),
-                height: screenHeight * 0.227,
-                child: Align(
-                  alignment: Alignment(0, -0.6),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundColor: const Color(0xFFC4C6C8),
-                        child: new Image.asset(
-                          'assets/images/png2.png',
+          child: Container(
+            color: Color(0xFFFAFAFA),
+            child: ListView(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 20.0),
+                  height: screenHeight * 0.227,
+                  child: Align(
+                    alignment: Alignment(0, -0.6),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 30.0,
+                          backgroundColor: const Color(0xFFC4C6C8),
+                          child: new Image.asset(
+                            'assets/images/png2.png',
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 16.0),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Hello!",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 26.0,
-                                fontWeight: FontWeight.normal),
-                          ),
-                          Text(
-                            "9547271228",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
+                        SizedBox(width: 16.0),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Hello!",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26.0,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                            Text(
+                              "9547271228",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+                  decoration: BoxDecoration(color: Color(0xFFC4C6C8)),
                 ),
-                decoration: BoxDecoration(color: Color(0xFFC4C6C8)),
-              ),
-              SizedBox(height: screenHeight * 0.1),
-              ImageTextColumn(),
-              Container(
-                  margin: EdgeInsets.only(
-                      left: screenWidth * 0.08, right: screenWidth * 0.08),
-                  child: Divider(height: screenHeight * 0.09, thickness: 1.0)),
-              MenuDrawer()
-            ],
+                SizedBox(height: screenHeight * 0.1),
+                ImageTextColumn(),
+                Container(
+                    margin: EdgeInsets.only(
+                        left: screenWidth * 0.08, right: screenWidth * 0.08),
+                    child: Divider(height: screenHeight * 0.09, thickness: 1.0)),
+                MenuDrawer()
+              ],
+            ),
           ),
         ),
         Positioned(
@@ -96,6 +99,42 @@ class _MapDrawerState extends State<MapDrawer> {
             ),
           ),
         ),
+        Positioned(
+          bottom: 0.0,
+            left: screenWidth * 0.08,
+            right: screenWidth * 0.08,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(top: BorderSide(width: 0.5)),
+                color: Color(0xFFFAFAFA)
+              ),
+              height: screenHeight * 0.08,
+              width: screenWidth,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        'v 2.36.8',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12
+                      ),
+                    ),
+                    Text(
+                        'Terms of use',
+                      style: TextStyle(
+                          color: Colors.grey,
+                        fontSize: 12
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+        )
       ],
     );
   }
