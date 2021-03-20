@@ -42,21 +42,22 @@ class ImageTextColumn extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(12),
             child: icon,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Color(text1 == 'Keyless' ? 0XFFFF9200 : 0xFFF1F1F1)),
           ),
-          Text(text1,
-              style: TextStyle(
-                  fontWeight:
-                      text1 == 'Keyless' ? FontWeight.bold : FontWeight.normal,
-                  color: text1 == 'Long' ? Colors.grey : Color(0xFF141414))),
+          Padding(
+            padding: const EdgeInsets.only(top:6.0, bottom: 2.5),
+            child: Text(text1,
+                style: TextStyle(
+                  fontSize: 14,
+                    color: text1 == 'Long' ? Colors.grey : Color(0xFF141414))),
+          ),
           Text(text2,
               style: TextStyle(
-                  fontWeight:
-                      text2 == 'Scooters' ? FontWeight.bold : FontWeight.normal,
+                fontSize: 14,
                   color: text2 == 'Term' ? Colors.grey : Color(0xFF141414)))
         ],
       ),
