@@ -22,7 +22,7 @@ class _MapDrawerState extends State<MapDrawer> {
               children: [
                 Container(
                   padding: EdgeInsets.only(left: 20.0),
-                  height: screenHeight * 0.227,
+                  height: screenHeight * 0.18,
                   child: Align(
                     alignment: Alignment(0, -0.6),
                     child: Row(
@@ -60,25 +60,25 @@ class _MapDrawerState extends State<MapDrawer> {
                   ),
                   decoration: BoxDecoration(color: Color(0xFFC4C6C8)),
                 ),
-                SizedBox(height: screenHeight * 0.1),
+                SizedBox(height: screenHeight * 0.08),
                 ImageTextColumn(),
                 Container(
                     margin: EdgeInsets.only(
-                        left: screenWidth * 0.08, right: screenWidth * 0.08),
-                    child: Divider(height: screenHeight * 0.09, thickness: 1.0)),
+                        left: screenWidth * 0.07, right: screenWidth * 0.07),
+                    child: Divider(height: screenHeight * 0.08, thickness: 1.0)),
                 MenuDrawer()
               ],
             ),
           ),
         ),
         Positioned(
-          top: screenHeight * 0.2,
-          left: screenWidth * 0.08,
-          right: screenWidth * 0.08,
+          top: screenHeight * 0.169,
+          left: screenWidth * 0.07,
+          right: screenWidth * 0.07,
           child: Container(
-            height: screenHeight * 0.12,
+            height: screenHeight * 0.10,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(4.0),
                 gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
@@ -101,8 +101,8 @@ class _MapDrawerState extends State<MapDrawer> {
         ),
         Positioned(
           bottom: 0.0,
-            left: screenWidth * 0.08,
-            right: screenWidth * 0.08,
+            left: screenWidth * 0.07,
+            right: screenWidth * 0.07,
             child: Container(
               decoration: BoxDecoration(
                 border: Border(top: BorderSide(width: 0.5)),

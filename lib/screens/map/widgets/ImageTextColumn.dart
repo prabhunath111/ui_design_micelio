@@ -6,13 +6,22 @@ class ImageTextColumn extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      margin: EdgeInsets.only(left: screenWidth * 0.08, right: screenWidth*0.08),
+      margin:
+          EdgeInsets.only(left: screenWidth * 0.07, right: screenWidth * 0.07),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          backgroundContainer(Color(0xFFFBF2D5),Icon(Icons.electric_scooter),'Keyless', 'Scooters'),
+          backgroundContainer(Color(0xFFFBF2D5), Icon(Icons.electric_scooter),
+              'Keyless', 'Scooters'),
           SizedBox(width: screenWidth * 0.1),
-          backgroundContainer(Color(0xFFFAFAFA),Icon(Icons.watch_later_outlined), 'Long', 'Term'),
+          backgroundContainer(
+              Color(0xFFFAFAFA),
+              Icon(
+                Icons.watch_later_outlined,
+                color: Colors.grey,
+              ),
+              'Long',
+              'Term'),
         ],
       ),
     );
@@ -21,9 +30,7 @@ class ImageTextColumn extends StatelessWidget {
   Widget backgroundContainer(color, icon, text1, text2) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: color
-      ),
+          borderRadius: BorderRadius.circular(10.0), color: color),
       child: imageTextColumn(icon, text1, text2),
     );
   }
@@ -36,14 +43,21 @@ class ImageTextColumn extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(10),
-              child: icon,
+            child: icon,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Color(text1 == 'Keyless'? 0XFFFF9200 : 0xFFF1F1F1)
-            ),
+                borderRadius: BorderRadius.circular(10),
+                color: Color(text1 == 'Keyless' ? 0XFFFF9200 : 0xFFF1F1F1)),
           ),
-          Text(text1, style: TextStyle(fontWeight: FontWeight.bold),),
-          Text(text2, style: TextStyle(fontWeight: FontWeight.bold),)
+          Text(text1,
+              style: TextStyle(
+                  fontWeight:
+                      text1 == 'Keyless' ? FontWeight.bold : FontWeight.normal,
+                  color: text1 == 'Long' ? Colors.grey : Color(0xFF141414))),
+          Text(text2,
+              style: TextStyle(
+                  fontWeight:
+                      text2 == 'Scooters' ? FontWeight.bold : FontWeight.normal,
+                  color: text2 == 'Term' ? Colors.grey : Color(0xFF141414)))
         ],
       ),
     );

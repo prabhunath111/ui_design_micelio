@@ -22,7 +22,7 @@ class FloatingTextColumn extends StatelessWidget {
       style: TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.bold,
-          fontSize: isTitle ? 20 : 15
+          fontSize: isTitle ? 16 : 12
       ),
     );
   }
