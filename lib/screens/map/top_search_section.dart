@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class TopSearchSection extends StatefulWidget {
   final handleDrawer;
+  const TopSearchSection ({ Key key, this.handleDrawer }): super(key: key);
 
-  TopSearchSection({this.handleDrawer});
+  // TopSearchSection({this.handleDrawer});
 
   @override
   _TopSearchSectionState createState() => _TopSearchSectionState();
@@ -27,7 +28,9 @@ class _TopSearchSectionState extends State<TopSearchSection> {
                   color: Colors.black87,
                   size: 22,
                 ),
-                onPressed: null),
+                onPressed: (){
+                  widget.handleDrawer();
+                }),
             Container(
                 height: screenHeight * 0.05,
                 width: screenWidth * 0.6,
