@@ -33,7 +33,7 @@ class _MapScreenState extends State<MapScreen> {
       body: Stack(
         children: [
           GoogleMap(
-            mapType: MapType.normal,
+            mapType: MapType.terrain,
             initialCameraPosition: _kGooglePlex,
             onMapCreated: _onMapCreated,
             trafficEnabled: true,

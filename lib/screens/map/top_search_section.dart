@@ -25,7 +25,7 @@ class _TopSearchSectionState extends State<TopSearchSection> {
                 icon: Icon(
                   Icons.menu,
                   color: Colors.black87,
-                  size: 30,
+                  size: 22,
                 ),
                 onPressed: null),
             Container(
@@ -50,12 +50,14 @@ class _TopSearchSectionState extends State<TopSearchSection> {
                 )),
             Container(
                 decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                    BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.white,
+                    ),
                 child: IconButton(
                     icon: Icon(
                       Icons.my_location,
                       color: Colors.black87,
-                      size: 22,
+                      size: 20,
                     ),
                     onPressed: null)),
           ],

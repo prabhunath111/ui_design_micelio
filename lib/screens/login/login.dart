@@ -4,11 +4,19 @@ import 'package:ui_design_demo/screens/login/submit_button.dart';
 import 'package:ui_design_demo/screens/login/textfields.dart';
 
 class Login extends StatefulWidget {
+
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+  String phone;
+  void handleOnChange(String s){
+    setState(() {
+      phone = s;
+      print("line17 $phone");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -60,11 +68,11 @@ class _LoginState extends State<Login> {
                         padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 24.0),
                         child: Column(
                           children: [
-                            TextFields(),
+                            TextFields(handleOnChange: handleOnChange),
                             SizedBox(
                               height: 8.0,
                             ),
-                            SubmitButton()
+                            SubmitButton(phone: phone)
                           ],
                         ),
                       ),

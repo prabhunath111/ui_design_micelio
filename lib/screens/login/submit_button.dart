@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_otp/flutter_otp.dart';
 
 class SubmitButton extends StatelessWidget {
+  final phone;
+  SubmitButton({this.phone});
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -9,6 +12,7 @@ class SubmitButton extends StatelessWidget {
       width: screenWidth * 0.8,
       child: ElevatedButton(
           onPressed: () {
+            // FlutterOtp().sendOtp(phone);
             Navigator.pushNamed(context, '/otpscreen');
           },
           child: Text(

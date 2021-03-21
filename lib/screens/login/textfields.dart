@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TextFields extends StatefulWidget {
+  // TextFields({this.handleOnChange});
+  final handleOnChange;
+  const TextFields ({ Key key, this.handleOnChange }): super(key: key);
+
+
   @override
   _TextFieldsState createState() => _TextFieldsState();
 }
@@ -64,6 +69,9 @@ class _TextFieldsState extends State<TextFields> {
                     border: InputBorder.none,
                   ),
                   keyboardType: TextInputType.number,
+                  onChanged: (e){
+                    widget.handleOnChange(e);
+                  },
                 ),
               ),
             ),
