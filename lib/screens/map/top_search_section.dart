@@ -88,7 +88,6 @@ class _TopSearchSectionState extends State<TopSearchSection> {
         components: [Component(Component.country, "in")]);
     setState(() {
       searchedLocation = p.description.toString();
-      print("line91 $searchedLocation");
     });
     if (searchedLocation != 'Your Location') {
       PlacesDetailsResponse detail =
@@ -99,8 +98,6 @@ class _TopSearchSectionState extends State<TopSearchSection> {
       double lat = detail.result.geometry.location.lat;
       double lng = detail.result.geometry.location.lng;
       // var address = await Geocoder.local.findAddressesFromQuery(p.description);
-      print("line108$lat");
-      print("line109 $lng");
       widget.createMarker(lat, lng, true);
     }
   }

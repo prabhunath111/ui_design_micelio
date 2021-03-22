@@ -4,8 +4,9 @@ class BottomCard extends StatelessWidget {
   final nearbyChargers;
   final createMarker;
   final updateCameraLocation;
+  final setPolylines;
 
-  BottomCard({this.nearbyChargers, this.createMarker, this.updateCameraLocation});
+  BottomCard({this.nearbyChargers, this.createMarker, this.updateCameraLocation, this.setPolylines});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class BottomCard extends StatelessWidget {
                         var destLng=nearbyChargers[index]['location']['coordinates'][1];
                         createMarker(destLat, destLng, false);
                         updateCameraLocation();
+                        setPolylines();
                       },
                       child: Center(
                         child: Padding(

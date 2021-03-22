@@ -6,6 +6,8 @@ import 'package:ui_design_demo/screens/map/map_drawer.dart';
 import 'package:ui_design_demo/screens/map/top_search_section.dart';
 import 'package:http/http.dart' as http;
 import 'package:ui_design_demo/screens/map/widgets/bottom_card.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+
 
 class MapScreen extends StatefulWidget {
   @override
@@ -16,6 +18,11 @@ class _MapScreenState extends State<MapScreen> {
   GoogleMapController mapController;
   Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints = PolylinePoints();
+  Set<Polyline> _polylines = {};
+  String googleAPIKey = "AIzaSyAFfkk5FtmXgIsbHQzmEXsyFOACA4Jj_oY";
+
   var nearbyChargers;
   var origin = [];
   var dest = [];
@@ -68,13 +75,16 @@ class _MapScreenState extends State<MapScreen> {
             // myLocationEnabled: true,
             // myLocationButtonEnabled: true,
             markers: Set<Marker>.of(markers.values),
+            polylines: _polylines,
           ),
           TopSearchSection(
               handleDrawer: handleDrawer, createMarker: createMarker),
           BottomCard(
               nearbyChargers: nearbyChargers,
               createMarker: createMarker,
-              updateCameraLocation: updateCameraLocation),
+              updateCameraLocation: updateCameraLocation,
+              setPolylines: setPolylines
+          ),
         ],
       ),
     );
@@ -99,7 +109,6 @@ class _MapScreenState extends State<MapScreen> {
         .post(Uri.parse(uri), body: jsonBody, headers: headers)
         .then((response) {
       final body1 = json.decode(response.body);
-      print("line89 $body1");
       setState(() {
         nearbyChargers = body1;
       });
@@ -109,12 +118,8 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> updateCameraLocation() async {
     LatLng source = LatLng(origin[0], origin[1]);
     LatLng destination = LatLng(dest[0], dest[1]);
-    print("line112 $source  $destination");
-    print("line114 $mapController");
     if (mapController == null) return;
-
     LatLngBounds bounds;
-
     if (source.latitude > destination.latitude &&
         source.longitude > destination.longitude) {
       bounds = LatLngBounds(southwest: destination, northeast: source);
@@ -129,11 +134,8 @@ class _MapScreenState extends State<MapScreen> {
     } else {
       bounds = LatLngBounds(southwest: source, northeast: destination);
     }
-
     CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 70);
-
     return checkCameraLocation(cameraUpdate, mapController);
-
   }
 
   Future<void> checkCameraLocation(
@@ -144,5 +146,31 @@ class _MapScreenState extends State<MapScreen> {
     if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90) {
       return checkCameraLocation(cameraUpdate, mapController);
     }
+  }
+  Future setPolylines() async {
+    if(polylineCoordinates.length>0){
+      polylineCoordinates.clear();
+    }
+    PolylineResult result = await polylinePoints?.getRouteBetweenCoordinates(
+        googleAPIKey,
+        PointLatLng(origin[0], origin[1]),
+        PointLatLng(dest[0], dest[1]),
+        travelMode: TravelMode.driving);
+    if (result != null) {
+      result.points.forEach((point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    setState(() {
+      // create a Polyline instance
+      // with an id, an RGB color and the list of LatLng pairs
+      Polyline polyline = Polyline(
+          polylineId: PolylineId("poly"),
+          color: Color(0xFF49C1BD),
+          // color: Color.fromARGB(255, 40, 122, 198),
+          // colors.cyan,
+          points: polylineCoordinates);
+      _polylines.add(polyline);
+    });
   }
 }
