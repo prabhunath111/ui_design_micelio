@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+
 
 class TopSearchSection extends StatefulWidget {
   final handleDrawer;
@@ -11,6 +16,12 @@ class TopSearchSection extends StatefulWidget {
 }
 
 class _TopSearchSectionState extends State<TopSearchSection> {
+  static const kGoogleApiKey = "AIzaSyAUDJWykw7T79Tftb8EmXFaYRkAwr3SGRk";
+  var searchedLocation='Your Location';
+  // GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
+  // const kGoogleApiKey = "My key";
+
+  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -31,26 +42,27 @@ class _TopSearchSectionState extends State<TopSearchSection> {
                 onPressed: (){
                   widget.handleDrawer();
                 }),
-            Container(
-                height: screenHeight * 0.05,
-                width: screenWidth * 0.6,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Stack(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Your Location',
-                        hintStyle: TextStyle(
-                          fontSize: 14
-                        ),
-                        // contentPadding: EdgeInsets.all(screenWidth * 0.025),
-                        prefixIcon: Icon(Icons.circle, color: Color(0xFF49C1BD),size: 10,),
-                        border: InputBorder.none
+            Expanded(
+              child: GestureDetector(
+                onTap: searchLocation,
+                child: Container(
+                  height: screenHeight * 0.05,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                              child: Text(searchedLocation)),
                       ),
-                  )],
-                )),
+                    ),
+                ),
+              ),
+            ),
             Container(
                 decoration:
                     BoxDecoration(
@@ -65,5 +77,20 @@ class _TopSearchSectionState extends State<TopSearchSection> {
                     onPressed: null)),
           ],
         ));
+  }
+
+  Future searchLocation() async {
+    // should show search screen here
+    Prediction p = await PlacesAutocomplete.show(
+        context: context,
+        apiKey: kGoogleApiKey,
+        mode: Mode.overlay,
+        // Mode.fullscreen
+        language: "en",
+        components: [Component(Component.country, "in")]);
+    setState(() {
+      searchedLocation = p.description.toString();
+      print("line91 $searchedLocation");
+    });
   }
 }

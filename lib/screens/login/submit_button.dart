@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp/flutter_otp.dart';
 
 class SubmitButton extends StatelessWidget {
   final phone;
