@@ -28,7 +28,7 @@ void main() {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => Login(),
+        '/': (context) => MapScreen(),
         '/otpscreen': (context) => OtpScreen(),
         '/mapscreen': (context) => MapScreen(),
         'topsearchsection': (context) => TopSearchSection()
