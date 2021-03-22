@@ -101,7 +101,7 @@ class _TopSearchSectionState extends State<TopSearchSection> {
       // var address = await Geocoder.local.findAddressesFromQuery(p.description);
       print("line108$lat");
       print("line109 $lng");
-      widget.createMarker(lat, lng);
+      widget.createMarker(lat, lng, true);
     }
   }
 }

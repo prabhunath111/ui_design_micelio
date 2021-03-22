@@ -7,7 +7,6 @@ import 'package:ui_design_demo/screens/map/top_search_section.dart';
 import 'package:http/http.dart' as http;
 import 'package:ui_design_demo/screens/map/widgets/bottom_card.dart';
 
-
 class MapScreen extends StatefulWidget {
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -18,6 +17,8 @@ class _MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   var nearbyChargers;
+  var origin = [];
+  var dest = [];
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(12.9061, 77.5845),
     zoom: 15,
@@ -30,7 +31,7 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  createMarker(lat, lng) {
+  createMarker(lat, lng, isOrigin) {
     // creating a new MARKER
     var markerIdVal = markers.length + 1;
     String mar = markerIdVal.toString();
@@ -38,6 +39,13 @@ class _MapScreenState extends State<MapScreen> {
     final Marker marker =
         Marker(markerId: markerId, position: LatLng(lat, lng));
     setState(() {
+      if (isOrigin) {
+        origin.add(lat);
+        origin.add(lng);
+      } else {
+        dest.add(lat);
+        dest.add(lng);
+      }
       markers[markerId] = marker;
       getNearbyCharger(lat, lng);
     });
@@ -62,9 +70,11 @@ class _MapScreenState extends State<MapScreen> {
             markers: Set<Marker>.of(markers.values),
           ),
           TopSearchSection(
-              handleDrawer: handleDrawer, createMarker: createMarker
-          ),
-          BottomCard(nearbyChargers: nearbyChargers, createMarker: createMarker),
+              handleDrawer: handleDrawer, createMarker: createMarker),
+          BottomCard(
+              nearbyChargers: nearbyChargers,
+              createMarker: createMarker,
+              updateCameraLocation: updateCameraLocation),
         ],
       ),
     );
@@ -85,14 +95,54 @@ class _MapScreenState extends State<MapScreen> {
       }
     };
     final jsonBody = jsonEncode(body);
-    http.post(
-        Uri.parse(uri),
-        body: jsonBody, headers: headers).then((response) {
+    http
+        .post(Uri.parse(uri), body: jsonBody, headers: headers)
+        .then((response) {
       final body1 = json.decode(response.body);
       print("line89 $body1");
       setState(() {
         nearbyChargers = body1;
       });
     });
+  }
+
+  Future<void> updateCameraLocation() async {
+    LatLng source = LatLng(origin[0], origin[1]);
+    LatLng destination = LatLng(dest[0], dest[1]);
+    print("line112 $source  $destination");
+    print("line114 $mapController");
+    if (mapController == null) return;
+
+    LatLngBounds bounds;
+
+    if (source.latitude > destination.latitude &&
+        source.longitude > destination.longitude) {
+      bounds = LatLngBounds(southwest: destination, northeast: source);
+    } else if (source.longitude > destination.longitude) {
+      bounds = LatLngBounds(
+          southwest: LatLng(source.latitude, destination.longitude),
+          northeast: LatLng(destination.latitude, source.longitude));
+    } else if (source.latitude > destination.latitude) {
+      bounds = LatLngBounds(
+          southwest: LatLng(destination.latitude, source.longitude),
+          northeast: LatLng(source.latitude, destination.longitude));
+    } else {
+      bounds = LatLngBounds(southwest: source, northeast: destination);
+    }
+
+    CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bounds, 70);
+
+    return checkCameraLocation(cameraUpdate, mapController);
+
+  }
+
+  Future<void> checkCameraLocation(
+      CameraUpdate cameraUpdate, GoogleMapController mapController) async {
+    mapController.animateCamera(cameraUpdate);
+    LatLngBounds l1 = await mapController.getVisibleRegion();
+    LatLngBounds l2 = await mapController.getVisibleRegion();
+    if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90) {
+      return checkCameraLocation(cameraUpdate, mapController);
+    }
   }
 }

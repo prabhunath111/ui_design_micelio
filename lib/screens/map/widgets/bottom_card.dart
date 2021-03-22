@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class BottomCard extends StatelessWidget {
   final nearbyChargers;
   final createMarker;
+  final updateCameraLocation;
 
-  BottomCard({this.nearbyChargers, this.createMarker});
+  BottomCard({this.nearbyChargers, this.createMarker, this.updateCameraLocation});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,10 @@ class BottomCard extends StatelessWidget {
                     ),
                     child: InkWell(
                       onTap: () {
-                        createMarker(nearbyChargers[index]['location']['coordinates'][0], nearbyChargers[index]['location']['coordinates'][1]);
+                        var destLat=nearbyChargers[index]['location']['coordinates'][0];
+                        var destLng=nearbyChargers[index]['location']['coordinates'][1];
+                        createMarker(destLat, destLng, false);
+                        updateCameraLocation();
                       },
                       child: Center(
                         child: Padding(
