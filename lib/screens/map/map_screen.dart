@@ -171,8 +171,7 @@ class _MapScreenState extends State<MapScreen> {
     final iconData = (isOrigin)?Icons.directions_bike_sharp:Icons.electrical_services;
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder);
-    final textPainter = TextPainter(textDirection: TextDirection.ltr);
-    final iconStr = String.fromCharCode(iconData.codePoint);
+
     // calculate marker dimensions
     double _markerSize = 120;
     double _circleStrokeWidth = _markerSize / 10.0;
@@ -187,17 +186,6 @@ class _MapScreenState extends State<MapScreen> {
     _paintCircleFill(canvas, Colors.amber, _circleOffset, _fillCircleWidth);
     _paintCircleStroke(canvas, Colors.green, _circleStrokeWidth, _circleOffset, _outlineCircleWidth);
     _paintIcon(canvas, Colors.red, iconData, _iconSize, _iconOffset);
-
-    /*extPainter.text = TextSpan(
-        text: iconStr,
-        style: TextStyle(
-          letterSpacing: 0.0,
-          fontSize: 108.0,
-          fontFamily: iconData.fontFamily,
-          color: Colors.red,
-        ));*/
-    // textPainter.layout();
-    // textPainter.paint(canvas, Offset(0.0, 0.0));
     final picture = pictureRecorder.endRecording();
     final image = await picture.toImage(_markerSize.round(), _markerSize.round());
     final bytes = await image.toByteData(format: ImageByteFormat.png);

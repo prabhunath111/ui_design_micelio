@@ -45,12 +45,13 @@ class BottomCard extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
+                                  /*Image.asset(
                                     'assets/images/download.png',
                                     width: screenWidth * 0.2,
                                     height: screenHeight * 0.05,
-                                  ),
-                                  SizedBox(width: screenWidth * 0.05),
+                                  ),*/
+                                  Icon(Icons.electrical_services_sharp, size: 60.0,color: Color(0xFF49C1BD),),
+                                  SizedBox(width: screenWidth * 0.07),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
