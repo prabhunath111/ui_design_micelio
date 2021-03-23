@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ui_design_demo/screens/map/map_drawer.dart';
@@ -7,7 +9,6 @@ import 'package:ui_design_demo/screens/map/top_search_section.dart';
 import 'package:http/http.dart' as http;
 import 'package:ui_design_demo/screens/map/widgets/bottom_card.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-
 
 class MapScreen extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _MapScreenState extends State<MapScreen> {
   var nearbyChargers;
   var origin = [];
   var dest = [];
+  var userIcon;
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(12.9061, 77.5845),
     zoom: 15,
@@ -38,24 +40,16 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  createMarker(lat, lng, isOrigin) {
+  createMarker(lat, lng, isOrigin) async {
     // creating a new MARKER
     var markerIdVal = markers.length + 1;
     String mar = markerIdVal.toString();
     final MarkerId markerId = MarkerId(mar);
-    final Marker marker =
-        Marker(markerId: markerId, position: LatLng(lat, lng));
-    setState(() {
-      if (isOrigin) {
-        origin.add(lat);
-        origin.add(lng);
-      } else {
-        dest.add(lat);
-        dest.add(lng);
-      }
-      markers[markerId] = marker;
-      getNearbyCharger(lat, lng);
-    });
+    if (isOrigin) {
+      await createIconFromIconData(lat, lng, markerId, true);
+    } else {
+      await createIconFromIconData(lat, lng, markerId, false);
+    }
   }
 
   @override
@@ -83,8 +77,7 @@ class _MapScreenState extends State<MapScreen> {
               nearbyChargers: nearbyChargers,
               createMarker: createMarker,
               updateCameraLocation: updateCameraLocation,
-              setPolylines: setPolylines
-          ),
+              setPolylines: setPolylines),
         ],
       ),
     );
@@ -147,8 +140,9 @@ class _MapScreenState extends State<MapScreen> {
       return checkCameraLocation(cameraUpdate, mapController);
     }
   }
+
   Future setPolylines() async {
-    if(polylineCoordinates.length>0){
+    if (polylineCoordinates.length > 0) {
       polylineCoordinates.clear();
     }
     PolylineResult result = await polylinePoints?.getRouteBetweenCoordinates(
@@ -166,11 +160,95 @@ class _MapScreenState extends State<MapScreen> {
       // with an id, an RGB color and the list of LatLng pairs
       Polyline polyline = Polyline(
           polylineId: PolylineId("poly"),
-          color: Color(0xFF49C1BD),
-          // color: Color.fromARGB(255, 40, 122, 198),
-          // colors.cyan,
+          color: Colors.blue,
+          width: 8,
           points: polylineCoordinates);
       _polylines.add(polyline);
     });
+  }
+
+  Future createIconFromIconData(lat, lng, markerId, isOrigin) async {
+    final iconData = (isOrigin)?Icons.directions_bike_sharp:Icons.electrical_services;
+    final pictureRecorder = PictureRecorder();
+    final canvas = Canvas(pictureRecorder);
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
+    final iconStr = String.fromCharCode(iconData.codePoint);
+    // calculate marker dimensions
+    double _markerSize = 120;
+    double _circleStrokeWidth = _markerSize / 10.0;
+    double _circleOffset = _markerSize / 2;
+    double _outlineCircleWidth = _circleOffset - (_circleStrokeWidth / 2);
+    double _fillCircleWidth = _markerSize / 2;
+    final outlineCircleInnerWidth = _markerSize - (2 * _circleStrokeWidth);
+    double _iconSize = sqrt(pow(outlineCircleInnerWidth, 2) / 2);
+    final rectDiagonal = sqrt(2 * pow(_markerSize, 2));
+    final circleDistanceToCorners = (rectDiagonal - outlineCircleInnerWidth) / 2;
+    double _iconOffset = sqrt(pow(circleDistanceToCorners, 2) / 2);
+    _paintCircleFill(canvas, Colors.amber, _circleOffset, _fillCircleWidth);
+    _paintCircleStroke(canvas, Colors.green, _circleStrokeWidth, _circleOffset, _outlineCircleWidth);
+    _paintIcon(canvas, Colors.red, iconData, _iconSize, _iconOffset);
+
+    /*extPainter.text = TextSpan(
+        text: iconStr,
+        style: TextStyle(
+          letterSpacing: 0.0,
+          fontSize: 108.0,
+          fontFamily: iconData.fontFamily,
+          color: Colors.red,
+        ));*/
+    // textPainter.layout();
+    // textPainter.paint(canvas, Offset(0.0, 0.0));
+    final picture = pictureRecorder.endRecording();
+    final image = await picture.toImage(_markerSize.round(), _markerSize.round());
+    final bytes = await image.toByteData(format: ImageByteFormat.png);
+    final bitmapDescriptor =
+        BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+    setState(() {
+      if (isOrigin) {
+        origin.add(lat);
+        origin.add(lng);
+        userIcon = bitmapDescriptor;
+      } else {
+        dest.add(lat);
+        dest.add(lng);
+        userIcon = bitmapDescriptor;
+      }
+      final Marker marker = Marker(
+          markerId: markerId, position: LatLng(lat, lng), icon: userIcon);
+      markers[markerId] = marker;
+      getNearbyCharger(lat, lng);
+    });
+  }
+
+  /// Paints the icon background
+  void _paintCircleFill(Canvas canvas, Color color, double _circleOffset, double _fillCircleWidth) {
+    final paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = color;
+    canvas.drawCircle(Offset(_circleOffset, _circleOffset), _fillCircleWidth, paint);
+  }
+  /// Paints a circle around the icon
+  void _paintCircleStroke(Canvas canvas, Color color, double _circleStrokeWidth, double _circleOffset, double _outlineCircleWidth) {
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = color
+      ..strokeWidth = _circleStrokeWidth;
+    canvas.drawCircle(Offset(_circleOffset, _circleOffset), _outlineCircleWidth, paint);
+  }
+
+  /// Paints the icon
+  void _paintIcon(Canvas canvas, Color color, IconData iconData, double _iconSize, double _iconOffset) {
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
+    textPainter.text = TextSpan(
+        text: String.fromCharCode(iconData.codePoint),
+        style: TextStyle(
+          letterSpacing: 0.0,
+          fontSize: _iconSize,
+          fontFamily: iconData.fontFamily,
+          color: color,
+        )
+    );
+    textPainter.layout();
+    textPainter.paint(canvas, Offset(_iconOffset, _iconOffset));
   }
 }

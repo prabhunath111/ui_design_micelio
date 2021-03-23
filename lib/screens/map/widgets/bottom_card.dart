@@ -29,11 +29,11 @@ class BottomCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async {
                         var destLat=nearbyChargers[index]['location']['coordinates'][0];
                         var destLng=nearbyChargers[index]['location']['coordinates'][1];
-                        createMarker(destLat, destLng, false);
-                        updateCameraLocation();
+                        await createMarker(destLat, destLng, false);
+                        await updateCameraLocation();
                         setPolylines();
                       },
                       child: Center(
