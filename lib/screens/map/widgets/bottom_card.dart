@@ -32,7 +32,7 @@ class BottomCard extends StatelessWidget {
                       onTap: () async {
                         var destLat=nearbyChargers[index]['location']['coordinates'][0];
                         var destLng=nearbyChargers[index]['location']['coordinates'][1];
-                        await createMarker(destLat, destLng, false);
+                        await createMarker(destLat, destLng, 'chargerLocation');
                         await updateCameraLocation();
                         setPolylines();
                       },

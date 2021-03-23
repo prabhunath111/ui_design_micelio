@@ -3,6 +3,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:ui_design_demo/screens/map/currentLocation.dart';
 
 class TopSearchSection extends StatefulWidget {
   final handleDrawer;
@@ -86,7 +87,11 @@ class _TopSearchSectionState extends State<TopSearchSection> {
                         color: Colors.black87,
                         size: 22,
                       ),
-                      onPressed: null),
+                      onPressed: () async {
+                        var getCurrLocation = GetCurrentLocation();
+                       await getCurrLocation.getCurrentLocation();
+                        widget.createMarker(getCurrLocation.currPosition.latitude, getCurrLocation.currPosition.longitude, 'userLocation');
+                      }),
                 ],
               )
             ],
@@ -110,12 +115,12 @@ class _TopSearchSectionState extends State<TopSearchSection> {
       PlacesDetailsResponse detail =
           await _places.getDetailsByPlaceId(p.placeId);
       var placeId = p.placeId;
-      print("line101 $placeId");
-      print("line98 ${detail.result.geometry.location}");
+      // print("line101 $placeId");
+      // print("line98 ${detail.result.geometry.location}");
       double lat = detail.result.geometry.location.lat;
       double lng = detail.result.geometry.location.lng;
       // var address = await Geocoder.local.findAddressesFromQuery(p.description);
-      widget.createMarker(lat, lng, true);
+      widget.createMarker(lat, lng, 'searchedLocation');
     }
   }
 }

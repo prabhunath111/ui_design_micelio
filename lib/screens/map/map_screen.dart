@@ -40,15 +40,18 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  createMarker(lat, lng, isOrigin) async {
+  createMarker(lat, lng, markerType) async {
     // creating a new MARKER
     var markerIdVal = markers.length + 1;
     String mar = markerIdVal.toString();
     final MarkerId markerId = MarkerId(mar);
-    if (isOrigin) {
-      await createIconFromIconData(lat, lng, markerId, true);
-    } else {
-      await createIconFromIconData(lat, lng, markerId, false);
+    if (markerType=='searchedLocation') {
+      await createIconFromIconData(lat, lng, markerId, 'searchedLocation');
+    }else if(markerType=='userLocation') {
+      await createIconFromIconData(lat, lng, markerId, 'userLocation');
+    }
+    else {
+      await createIconFromIconData(lat, lng, markerId, 'chargerLocation');
     }
   }
 
@@ -109,8 +112,8 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> updateCameraLocation() async {
-    LatLng source = LatLng(origin[0], origin[1]);
-    LatLng destination = LatLng(dest[0], dest[1]);
+    LatLng source = LatLng((origin.length>0)?origin[0]:0, (origin.length>0)?origin[1]:0);
+    LatLng destination = LatLng((dest.length>0)?dest[0]:0, (dest.length>0)?dest[1]:0);
     if (mapController == null) return;
     LatLngBounds bounds;
     if (source.latitude > destination.latitude &&
@@ -167,8 +170,8 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  Future createIconFromIconData(lat, lng, markerId, isOrigin) async {
-    final iconData = (isOrigin)?Icons.directions_bike_sharp:Icons.electrical_services;
+  Future createIconFromIconData(lat, lng, markerId, markerType) async {
+    final iconData = (markerType=='searchedLocation')?Icons.directions_bike_sharp:(markerType=='userLocation')?Icons.location_on:Icons.electrical_services;
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder);
 
@@ -192,11 +195,14 @@ class _MapScreenState extends State<MapScreen> {
     final bitmapDescriptor =
         BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
     setState(() {
-      if (isOrigin) {
+      if (markerType=='searchedLocation') {
         origin.add(lat);
         origin.add(lng);
         userIcon = bitmapDescriptor;
-      } else {
+      }else if(markerType=='userLocation') {
+        userIcon = bitmapDescriptor;
+      }
+      else {
         dest.add(lat);
         dest.add(lng);
         userIcon = bitmapDescriptor;
