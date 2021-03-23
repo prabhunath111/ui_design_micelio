@@ -45,12 +45,11 @@ class _MapScreenState extends State<MapScreen> {
     var markerIdVal = markers.length + 1;
     String mar = markerIdVal.toString();
     final MarkerId markerId = MarkerId(mar);
-    if (markerType=='searchedLocation') {
+    if (markerType == 'searchedLocation') {
       await createIconFromIconData(lat, lng, markerId, 'searchedLocation');
-    }else if(markerType=='userLocation') {
+    } else if (markerType == 'userLocation') {
       await createIconFromIconData(lat, lng, markerId, 'userLocation');
-    }
-    else {
+    } else {
       await createIconFromIconData(lat, lng, markerId, 'chargerLocation');
     }
   }
@@ -112,8 +111,10 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> updateCameraLocation() async {
-    LatLng source = LatLng((origin.length>0)?origin[0]:0, (origin.length>0)?origin[1]:0);
-    LatLng destination = LatLng((dest.length>0)?dest[0]:0, (dest.length>0)?dest[1]:0);
+    LatLng source = LatLng((origin.length > 0) ? origin[0] : 0,
+        (origin.length > 0) ? origin[1] : 0);
+    LatLng destination = LatLng(
+        (dest.length > 0) ? dest[0] : 0, (dest.length > 0) ? dest[1] : 0);
     if (mapController == null) return;
     LatLngBounds bounds;
     if (source.latitude > destination.latitude &&
@@ -171,7 +172,11 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future createIconFromIconData(lat, lng, markerId, markerType) async {
-    final iconData = (markerType=='searchedLocation')?Icons.directions_bike_sharp:(markerType=='userLocation')?Icons.location_on:Icons.electrical_services;
+    final iconData = (markerType == 'searchedLocation')
+        ? Icons.directions_bike_sharp
+        : (markerType == 'userLocation')
+            ? Icons.location_on
+            : Icons.electrical_services;
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder);
 
@@ -184,25 +189,27 @@ class _MapScreenState extends State<MapScreen> {
     final outlineCircleInnerWidth = _markerSize - (2 * _circleStrokeWidth);
     double _iconSize = sqrt(pow(outlineCircleInnerWidth, 2) / 2);
     final rectDiagonal = sqrt(2 * pow(_markerSize, 2));
-    final circleDistanceToCorners = (rectDiagonal - outlineCircleInnerWidth) / 2;
+    final circleDistanceToCorners =
+        (rectDiagonal - outlineCircleInnerWidth) / 2;
     double _iconOffset = sqrt(pow(circleDistanceToCorners, 2) / 2);
     _paintCircleFill(canvas, Colors.amber, _circleOffset, _fillCircleWidth);
-    _paintCircleStroke(canvas, Colors.green, _circleStrokeWidth, _circleOffset, _outlineCircleWidth);
+    _paintCircleStroke(canvas, Colors.green, _circleStrokeWidth, _circleOffset,
+        _outlineCircleWidth);
     _paintIcon(canvas, Colors.red, iconData, _iconSize, _iconOffset);
     final picture = pictureRecorder.endRecording();
-    final image = await picture.toImage(_markerSize.round(), _markerSize.round());
+    final image =
+        await picture.toImage(_markerSize.round(), _markerSize.round());
     final bytes = await image.toByteData(format: ImageByteFormat.png);
     final bitmapDescriptor =
         BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
     setState(() {
-      if (markerType=='searchedLocation') {
+      if (markerType == 'searchedLocation') {
         origin.add(lat);
         origin.add(lng);
         userIcon = bitmapDescriptor;
-      }else if(markerType=='userLocation') {
+      } else if (markerType == 'userLocation') {
         userIcon = bitmapDescriptor;
-      }
-      else {
+      } else {
         dest.add(lat);
         dest.add(lng);
         userIcon = bitmapDescriptor;
@@ -215,23 +222,29 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   /// Paints the icon background
-  void _paintCircleFill(Canvas canvas, Color color, double _circleOffset, double _fillCircleWidth) {
+  void _paintCircleFill(Canvas canvas, Color color, double _circleOffset,
+      double _fillCircleWidth) {
     final paint = Paint()
       ..style = PaintingStyle.fill
       ..color = color;
-    canvas.drawCircle(Offset(_circleOffset, _circleOffset), _fillCircleWidth, paint);
+    canvas.drawCircle(
+        Offset(_circleOffset, _circleOffset), _fillCircleWidth, paint);
   }
+
   /// Paints a circle around the icon
-  void _paintCircleStroke(Canvas canvas, Color color, double _circleStrokeWidth, double _circleOffset, double _outlineCircleWidth) {
+  void _paintCircleStroke(Canvas canvas, Color color, double _circleStrokeWidth,
+      double _circleOffset, double _outlineCircleWidth) {
     final paint = Paint()
       ..style = PaintingStyle.stroke
       ..color = color
       ..strokeWidth = _circleStrokeWidth;
-    canvas.drawCircle(Offset(_circleOffset, _circleOffset), _outlineCircleWidth, paint);
+    canvas.drawCircle(
+        Offset(_circleOffset, _circleOffset), _outlineCircleWidth, paint);
   }
 
   /// Paints the icon
-  void _paintIcon(Canvas canvas, Color color, IconData iconData, double _iconSize, double _iconOffset) {
+  void _paintIcon(Canvas canvas, Color color, IconData iconData,
+      double _iconSize, double _iconOffset) {
     final textPainter = TextPainter(textDirection: TextDirection.ltr);
     textPainter.text = TextSpan(
         text: String.fromCharCode(iconData.codePoint),
@@ -240,8 +253,7 @@ class _MapScreenState extends State<MapScreen> {
           fontSize: _iconSize,
           fontFamily: iconData.fontFamily,
           color: color,
-        )
-    );
+        ));
     textPainter.layout();
     textPainter.paint(canvas, Offset(_iconOffset, _iconOffset));
   }
